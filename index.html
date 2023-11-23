@@ -8,7 +8,11 @@
     </head>
     <body>
         <main id="box-all">
-            <h1>Slide game</h1>
+            <h1>Sliding puzzle</h1>
+            <select name="SelectGrid" id="gridSelect">
+                <option value="3x3">3x3</option>
+                <option value="4x4">4x4</option>
+            </select>
             <button onclick="embaralhar()">New Game</button>
             <button onclick="restart()">Restart</button>
             <div id="container-game">

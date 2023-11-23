@@ -1,9 +1,10 @@
 const tableHtml = document.getElementById('box-game');
 let gridGame = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ""];
 let tempGrid = [...gridGame];
-let gridInGame = 0
+let gridInGame = 0;
 let startGame = false;
 let numMoves = 0;
+let win = false;
 
 function movimentoValido(posicao) {
   const vazioIndex = gridGame.indexOf("");
@@ -80,8 +81,9 @@ function testChange() {
   if (gridGame.toString() !== tempGrid.toString()) {
     render();
     tempGrid = [...gridGame];
-  }else if(JSON.stringify(gridGame) == JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ""])){
-    alert("Congratulations, you win")
+  }else if(JSON.stringify(gridGame) == JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ""]) && win == false){
+    win = true
+    setTimeout(alert("Congratulations, you win"), 1000)
   }
   setTimeout(testChange, 10)
 }
