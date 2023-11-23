@@ -9,16 +9,16 @@
     <body>
         <main id="box-all">
             <h1>Sliding puzzle</h1>
-            <select name="SelectGrid" id="gridSelect">
+            <select name="SelectGrid" id="gridSelect" onchange="alterarGrid()">
                 <option value="3x3">3x3</option>
-                <option value="4x4">4x4</option>
-            </select>
+                <option value="4x4" selected>4x4</option>
+              </select>              
             <button onclick="embaralhar()">New Game</button>
             <button onclick="restart()">Restart</button>
             <div id="container-game">
                 <table id="box-game"></table>
             </div>
-            <p>Developed by <a href="">Roger Henrique Diegoli</a></p>
+            <p>Developed by <em><a href="https://github.com/rogerhenriquediegoli" target="_blank">Roger Henrique Diegoli</a></em></p>
         </main>
         <script src="./assets/script.js"></script>
     </body>

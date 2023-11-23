@@ -4,14 +4,29 @@ let tempGrid = [...gridGame];
 let gridInGame = 0;
 let startGame = false;
 let numMoves = 0;
+let numGrid = 4;
 let win = false;
 
-function movimentoValido(posicao) {
+function alterarGrid() {
+  const select = document.getElementById('gridSelect');
+  if (select.value === '3x3') {
+    gridGame = [1, 2, 3, 4, 5, 6, 7, 8, ""];
+    numGrid = 3;
+  } else if (select.value === '4x4') {
+    gridGame = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, "", 13, 14, 15];
+    numGrid = 4;
+  }
+  embaralhar();
+  render();
+}
+
+
+function movimentoValido(posicao, grid) {
   const vazioIndex = gridGame.indexOf("");
-  const linhaVazio = Math.floor(vazioIndex / 4);
-  const colunaVazio = vazioIndex % 4;
-  const linhaClicada = Math.floor(posicao / 4);
-  const colunaClicada = posicao % 4;
+  const linhaVazio = Math.floor(vazioIndex / grid);
+  const colunaVazio = vazioIndex % grid;
+  const linhaClicada = Math.floor(posicao / grid);
+  const colunaClicada = posicao % grid;
   return (
     (linhaClicada === linhaVazio && Math.abs(colunaClicada - colunaVazio) === 1) ||
     (colunaClicada === colunaVazio && Math.abs(linhaClicada - linhaVazio) === 1)
@@ -19,7 +34,7 @@ function movimentoValido(posicao) {
 }
 
 function realizarMovimento(posicao) {
-  if (movimentoValido(posicao)) {
+  if (movimentoValido(posicao, numGrid)) {
     numMoves++;
     if(numMoves == 1){
       startGame = true;
@@ -33,9 +48,10 @@ function realizarMovimento(posicao) {
 
 function render() {
   tableHtml.innerHTML = "";
-  for (let index = 0; index < gridGame.length; index += 4) {
+  const numColumns = gridGame.length === 9 ? 3 : 4;
+  for (let index = 0; index < gridGame.length; index += numColumns) {
     const tr = document.createElement('tr');
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < numColumns; i++) {
       const position = index + i;
       const td = document.createElement('td');
       td.textContent = gridGame[position];
@@ -81,7 +97,7 @@ function testChange() {
   if (gridGame.toString() !== tempGrid.toString()) {
     render();
     tempGrid = [...gridGame];
-  }else if(JSON.stringify(gridGame) == JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ""]) && win == false){
+  }else if(JSON.stringify(gridGame) == JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ""]) ||  JSON.stringify(gridGame) == JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, ""]) && win == false){
     win = true
     setTimeout(alert("Congratulations, you win"), 1000)
   }
