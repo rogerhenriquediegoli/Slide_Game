@@ -20,7 +20,6 @@ function alterarGrid() {
   render();
 }
 
-
 function movimentoValido(posicao, grid) {
   const vazioIndex = gridGame.indexOf("");
   const linhaVazio = Math.floor(vazioIndex / grid);
@@ -66,10 +65,18 @@ function render() {
 }
 
 function colors(element) {
-  const red = [1, 3, 6, 8, 9, 11, 14];
-  const yellow = [2, 4, 5, 7, 10, 12, 13, 15];
+  let red = 0;
+  let yellow = 0;
   let classe = "";
 
+  if(numGrid == 4){
+    red = [1, 3, 6, 8, 9, 11, 14];
+    yellow = [2, 4, 5, 7, 10, 12, 13, 15];
+  }else if(numGrid == 3){
+    red = [1, 3, 5, 7];
+    yellow = [2, 4, 6, 8];
+  }
+  
   if (red.includes(element)) {
     classe = "red";
   } else if (yellow.includes(element)) {
