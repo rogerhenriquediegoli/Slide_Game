@@ -1,6 +1,7 @@
 const tableHtml = document.getElementById('box-game');
 let gridGame = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ""];
 let tempGrid = [...gridGame];
+let gridInGame = 0
 let startGame = false;
 let numMoves = 0;
 
@@ -8,10 +9,8 @@ function movimentoValido(posicao) {
   const vazioIndex = gridGame.indexOf("");
   const linhaVazio = Math.floor(vazioIndex / 4);
   const colunaVazio = vazioIndex % 4;
-
   const linhaClicada = Math.floor(posicao / 4);
   const colunaClicada = posicao % 4;
-
   return (
     (linhaClicada === linhaVazio && Math.abs(colunaClicada - colunaVazio) === 1) ||
     (colunaClicada === colunaVazio && Math.abs(linhaClicada - linhaVazio) === 1)
@@ -20,11 +19,14 @@ function movimentoValido(posicao) {
 
 function realizarMovimento(posicao) {
   if (movimentoValido(posicao)) {
+    numMoves++;
+    if(numMoves == 1){
+      startGame = true;
+    }
     const vazioIndex = gridGame.indexOf("");
     const temp = gridGame[vazioIndex];
     gridGame[vazioIndex] = gridGame[posicao];
     gridGame[posicao] = temp;
-
   }
 }
 
@@ -37,7 +39,6 @@ function render() {
       const td = document.createElement('td');
       td.textContent = gridGame[position];
       td.className = colors(gridGame[position]);
-
       td.addEventListener('click', function () {
         realizarMovimento(position);
       });
@@ -57,7 +58,6 @@ function colors(element) {
   } else if (yellow.includes(element)) {
     classe = "light-yellow";
   }
-
   return classe;
 }
 
@@ -72,19 +72,23 @@ function embaralhar() {
         i--;
       }
     }
-    gridGame = newGrid;
+    gridGame = [...newGrid];
+    gridInGame = [...gridGame];
   }
 
 function testChange() {
   if (gridGame.toString() !== tempGrid.toString()) {
     render();
     tempGrid = [...gridGame];
-  }else if(gridGame == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ""]){
+  }else if(JSON.stringify(gridGame) == JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ""])){
     alert("Congratulations, you win")
   }
-  setTimeout(testChange, 1);
+  setTimeout(testChange, 10)
+}
+
+function restart(){
+  gridGame = [...gridInGame]
 }
 
 embaralhar();
-render();
-testChange();
+testChange(); //Está sempre em execução (Listener ao array GridGame)
